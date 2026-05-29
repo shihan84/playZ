@@ -10,6 +10,10 @@ import PlayoutDashboard from '@/components/playout/PlayoutDashboard'
 import AssetsLibrary from '@/components/playout/AssetsLibrary'
 import SimplePlaylist from '@/components/playout/SimplePlaylist'
 import GraphicsQuickAccess from '@/components/playout/GraphicsQuickAccess'
+import AssetsPage from '@/components/playout/AssetsPage'
+import GraphicsPage from '@/components/playout/GraphicsPage'
+import SchedulePage from '@/components/playout/SchedulePage'
+import ChannelsPage from '@/components/playout/ChannelsPage'
 
 export default function PlayoutAutomation() {
   const [activeTab, setActiveTab] = useState('dashboard')
@@ -138,41 +142,13 @@ export default function PlayoutAutomation() {
           </div>
         )}
 
-        {activeTab === 'assets' && (
-          <Card className="bg-slate-800 border-slate-700">
-            <CardContent className="p-6">
-              <h2 className="text-white text-xl font-semibold mb-4">Assets Library</h2>
-              <p className="text-slate-400">Full assets library view coming soon...</p>
-            </CardContent>
-          </Card>
-        )}
+        {activeTab === 'assets' && <AssetsPage />}
 
-        {activeTab === 'graphics' && (
-          <Card className="bg-slate-800 border-slate-700">
-            <CardContent className="p-6">
-              <h2 className="text-white text-xl font-semibold mb-4">Graphics & Overlays</h2>
-              <p className="text-slate-400">Quick graphics access panel coming soon...</p>
-            </CardContent>
-          </Card>
-        )}
+        {activeTab === 'graphics' && <GraphicsPage />}
 
-        {activeTab === 'schedule' && (
-          <Card className="bg-slate-800 border-slate-700">
-            <CardContent className="p-6">
-              <h2 className="text-white text-xl font-semibold mb-4">Schedule Calendar</h2>
-              <p className="text-slate-400">Full schedule view coming soon...</p>
-            </CardContent>
-          </Card>
-        )}
+        {activeTab === 'schedule' && <SchedulePage />}
 
-        {activeTab === 'channels' && (
-          <Card className="bg-slate-800 border-slate-700">
-            <CardContent className="p-6">
-              <h2 className="text-white text-xl font-semibold mb-4">Channel Management</h2>
-              <p className="text-slate-400">Channel settings and configuration coming soon...</p>
-            </CardContent>
-          </Card>
-        )}
+        {activeTab === 'channels' && <ChannelsPage />}
       </main>
 
       {/* Footer */}
