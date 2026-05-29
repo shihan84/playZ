@@ -278,11 +278,11 @@ export default function ChannelManager() {
                         channel.status === 'live' || channel.status === 'streaming' ? 'text-green-400' :
                         channel.status === 'stopped' ? 'text-red-400' : 'text-white'
                       }`}>
-                        <STATUS_COLORS[channel.status] ? (
+                        {STATUS_COLORS[channel.status] && (
                           <div className={`w-2 h-2 rounded-full ${STATUS_COLORS[channel.status]} ${
                             channel.status === 'live' || channel.status === 'streaming' ? 'animate-pulse' : ''
                           }`} />
-                        ) : null}
+                        )}
                         {channel.status.toUpperCase()}
                       </div>
                     </div>
