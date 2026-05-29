@@ -595,6 +595,52 @@ Stage Summary:
 - Project fully documented
 - Repository updated with instructions
 
+---
+Task ID: 33
+Agent: Main Agent
+Task: Create new UX/UI-based workflow builder component
+
+Work Log:
+- Created WorkflowBuilder.tsx component with proper UX/UI design
+- Replaced node-based editor with intuitive step-by-step interface
+- Implemented card-based workflow management with clear visual hierarchy
+- Added expandable step cards with configuration panels
+- Created 8 workflow step types: Video, Audio, CG, Image, Text, Live, SCTE-35, Output
+- Implemented step management features: add, delete, duplicate, reorder (up/down)
+- Added step enable/disable toggle with checkbox
+- Created configuration forms for each step type with appropriate inputs
+- Built two-panel layout: left panel for step list, right panel for configuration
+- Added "Add Step" panel with grid of step type buttons
+- Implemented step selection with visual feedback (purple highlight)
+- Added step preview card showing current configuration
+- Created professional workflow save button
+- Used consistent dark theme with shadcn/ui components
+
+Stage Summary:
+- Professional UX/UI workflow builder completed
+- Intuitive step-based interface replacing node editor
+- Full CRUD operations for workflow steps
+- Type-specific configuration forms
+- Professional visual design with expandable cards
+
+---
+Task ID: 34
+Agent: Main Agent
+Task: Update main page to use Workflow Builder
+
+Work Log:
+- Updated src/app/page.tsx to import WorkflowBuilder instead of NodeEditor
+- Changed tab label from "Node Editor" to "Workflow Builder"
+- Updated card title from "Node-based Playout Designer" to "Playout Workflow Builder"
+- Updated card description to reflect step-by-step approach
+- Changed header subtitle from "Node-based broadcast automation" to "Enterprise broadcast automation with intuitive workflow builder"
+- Maintained all other functionality (Channels, Timeline, HTML CG, SCTE-35)
+
+Stage Summary:
+- Main page updated to use new workflow builder
+- All text and labels updated for consistency
+- Seamless transition from node-based to step-based UX
+
 # AI Agent Memory Tracking Structure
 
 ## Purpose

@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Play, Pause, Square, Settings, Layers, Radio, Clock, FileVideo, Tv } from 'lucide-react'
-import NodeEditor from '@/components/playout/NodeEditor'
+import WorkflowBuilder from '@/components/playout/WorkflowBuilder'
 import PlayoutTimeline from '@/components/playout/PlayoutTimeline'
 import CGEditor from '@/components/playout/CGEditor'
 import SCTE35Config from '@/components/playout/SCTE35Config'
@@ -25,7 +25,7 @@ export default function PlayoutAutomation() {
                 <Radio className="h-8 w-8 text-purple-400" />
                 <div>
                   <h1 className="text-2xl font-bold text-white">Multi-Channel Playout Automation</h1>
-                  <p className="text-sm text-slate-400">Node-based broadcast automation with multi-stream support</p>
+                  <p className="text-sm text-slate-400">Enterprise broadcast automation with intuitive workflow builder</p>
                 </div>
               </div>
             </div>
@@ -70,7 +70,7 @@ export default function PlayoutAutomation() {
                 </TabsTrigger>
                 <TabsTrigger value="nodes" className="data-[state=active]:bg-purple-600">
                   <Layers className="h-4 w-4 mr-2" />
-                  Node Editor
+                  Workflow Builder
                 </TabsTrigger>
                 <TabsTrigger value="timeline" className="data-[state=active]:bg-purple-600">
                   <Clock className="h-4 w-4 mr-2" />
@@ -103,13 +103,13 @@ export default function PlayoutAutomation() {
               <TabsContent value="nodes" className="space-y-4">
                 <Card className="bg-slate-800 border-slate-700">
                   <CardHeader>
-                    <CardTitle className="text-white">Node-based Playout Designer</CardTitle>
+                    <CardTitle className="text-white">Playout Workflow Builder</CardTitle>
                     <CardDescription className="text-slate-400">
-                      Create complex playout workflows by connecting nodes for video, audio, CG overlays, and ad insertion
+                      Create and manage playout workflows with an intuitive step-by-step interface
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <NodeEditor />
+                    <WorkflowBuilder />
                   </CardContent>
                 </Card>
               </TabsContent>
