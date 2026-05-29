@@ -1,269 +1,192 @@
 'use client'
 
 import { useState } from 'react'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Play, Pause, Square, Settings, Layers, Radio, Clock, FileVideo, Tv } from 'lucide-react'
-import WorkflowBuilder from '@/components/playout/WorkflowBuilder'
-import PlayoutTimeline from '@/components/playout/PlayoutTimeline'
-import CGEditor from '@/components/playout/CGEditor'
-import SCTE35Config from '@/components/playout/SCTE35Config'
-import ChannelManager from '@/components/playout/ChannelManager'
+import { Badge } from '@/components/ui/badge'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Radio, Layers, Tv, Settings, MessageSquare, Image as ImageIcon, Clock, Calendar, Layout } from 'lucide-react'
+import PlayoutDashboard from '@/components/playout/PlayoutDashboard'
+import AssetsLibrary from '@/components/playout/AssetsLibrary'
+import SimplePlaylist from '@/components/playout/SimplePlaylist'
+import GraphicsQuickAccess from '@/components/playout/GraphicsQuickAccess'
 
 export default function PlayoutAutomation() {
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [activeTab, setActiveTab] = useState('channels')
+  const [activeTab, setActiveTab] = useState('dashboard')
+  const [selectedChannel, setSelectedChannel] = useState('ch01')
+
+  const handleFileAdd = (file: any) => {
+    console.log('File added to playlist:', file.name)
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex flex-col">
+      {/* Header */}
       <header className="border-b border-slate-700 bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+            {/* Logo and title */}
+            <div className="flex items-center gap-3">
               <div className="flex items-center gap-2">
-                <Radio className="h-8 w-8 text-purple-400" />
-                <div>
-                  <h1 className="text-2xl font-bold text-white">Multi-Channel Playout Automation</h1>
-                  <p className="text-sm text-slate-400">Enterprise broadcast automation with intuitive workflow builder</p>
+                <div className="h-10 w-10 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center">
+                  <Radio className="h-6 w-6 text-white" />
                 </div>
+                <div>
+                  <h1 className="text-xl font-bold text-white">playZ</h1>
+                  <p className="text-xs text-slate-400">Broadcast Playout Automation</p>
+                </div>
+              </div>
+
+              {/* Channel Selector */}
+              <div className="ml-6 flex items-center gap-2">
+                <span className="text-slate-400 text-sm">Channel:</span>
+                <Select value={selectedChannel} onValueChange={setSelectedChannel}>
+                  <SelectTrigger className="w-40 bg-slate-800 border-slate-700 text-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="ch01">CH01 - Main</SelectItem>
+                    <SelectItem value="ch02">CH02 - News 24/7</SelectItem>
+                    <SelectItem value="ch03">CH03 - Sports</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
+            {/* Right side controls */}
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-2 bg-slate-800 rounded-lg px-4 py-2">
-                <div className="text-sm text-slate-400">
-                  <span>Status:</span>
-                  <span className={`ml-2 font-semibold ${isPlaying ? 'text-green-400' : 'text-yellow-400'}`}>
-                    {isPlaying ? 'ON AIR' : 'STANDBY'}
-                  </span>
-                </div>
-              </div>
-
-              <Button
-                size="sm"
-                variant={isPlaying ? "destructive" : "default"}
-                onClick={() => setIsPlaying(!isPlaying)}
-                className="gap-2"
-              >
-                {isPlaying ? <Square className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                {isPlaying ? 'Stop All' : 'Start All'}
-              </Button>
-
-              <Button size="sm" variant="outline" className="gap-2">
-                <Settings className="h-4 w-4" />
+              <Badge className="bg-green-600">ON AIR</Badge>
+              <Button size="sm" variant="outline">
+                <Settings className="h-4 w-4 mr-2" />
                 Settings
               </Button>
             </div>
           </div>
+
+          {/* Navigation tabs */}
+          <div className="flex gap-1 mt-3">
+            <Button
+              variant={activeTab === 'dashboard' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => setActiveTab('dashboard')}
+              className={activeTab === 'dashboard' ? 'bg-purple-600' : 'text-slate-400 hover:text-white'}
+            >
+              <Layout className="h-4 w-4 mr-2" />
+              Dashboard
+            </Button>
+            <Button
+              variant={activeTab === 'assets' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => setActiveTab('assets')}
+              className={activeTab === 'assets' ? 'bg-purple-600' : 'text-slate-400 hover:text-white'}
+            >
+              <Layers className="h-4 w-4 mr-2" />
+              Assets
+            </Button>
+            <Button
+              variant={activeTab === 'graphics' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => setActiveTab('graphics')}
+              className={activeTab === 'graphics' ? 'bg-purple-600' : 'text-slate-400 hover:text-white'}
+            >
+              <ImageIcon className="h-4 w-4 mr-2" />
+              Graphics
+            </Button>
+            <Button
+              variant={activeTab === 'schedule' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => setActiveTab('schedule')}
+              className={activeTab === 'schedule' ? 'bg-purple-600' : 'text-slate-400 hover:text-white'}
+            >
+              <Calendar className="h-4 w-4 mr-2" />
+              Schedule
+            </Button>
+            <Button
+              variant={activeTab === 'channels' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => setActiveTab('channels')}
+              className={activeTab === 'channels' ? 'bg-purple-600' : 'text-slate-400 hover:text-white'}
+            >
+              <Tv className="h-4 w-4 mr-2" />
+              Channels
+            </Button>
+          </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-3">
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-              <TabsList className="bg-slate-800 border border-slate-700">
-                <TabsTrigger value="channels" className="data-[state=active]:bg-purple-600">
-                  <Tv className="h-4 w-4 mr-2" />
-                  Channels
-                </TabsTrigger>
-                <TabsTrigger value="nodes" className="data-[state=active]:bg-purple-600">
-                  <Layers className="h-4 w-4 mr-2" />
-                  Workflow Builder
-                </TabsTrigger>
-                <TabsTrigger value="timeline" className="data-[state=active]:bg-purple-600">
-                  <Clock className="h-4 w-4 mr-2" />
-                  Timeline
-                </TabsTrigger>
-                <TabsTrigger value="cg" className="data-[state=active]:bg-purple-600">
-                  <FileVideo className="h-4 w-4 mr-2" />
-                  HTML CG
-                </TabsTrigger>
-                <TabsTrigger value="scte" className="data-[state=active]:bg-purple-600">
-                  <Radio className="h-4 w-4 mr-2" />
-                  SCTE-35
-                </TabsTrigger>
-              </TabsList>
+      {/* Main Content */}
+      <main className="container mx-auto px-4 py-4 flex-1">
+        {activeTab === 'dashboard' && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            {/* Left - Assets Library */}
+            <div className="lg:col-span-3">
+              <div className="space-y-4">
+                <AssetsLibrary onFileAdd={handleFileAdd} />
+                <GraphicsQuickAccess />
+              </div>
+            </div>
 
-              <TabsContent value="channels" className="space-y-4">
-                <Card className="bg-slate-800 border-slate-700">
-                  <CardHeader>
-                    <CardTitle className="text-white">Multi-Channel Management</CardTitle>
-                    <CardDescription className="text-slate-400">
-                      Manage multiple TV channels with individual workflows, schedules, and stream outputs
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <ChannelManager />
-                  </CardContent>
-                </Card>
-              </TabsContent>
+            {/* Center - Playout Dashboard */}
+            <div className="lg:col-span-6">
+              <PlayoutDashboard />
+            </div>
 
-              <TabsContent value="nodes" className="space-y-4">
-                <Card className="bg-slate-800 border-slate-700">
-                  <CardHeader>
-                    <CardTitle className="text-white">Playout Workflow Builder</CardTitle>
-                    <CardDescription className="text-slate-400">
-                      Create and manage playout workflows with an intuitive step-by-step interface
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <WorkflowBuilder />
-                  </CardContent>
-                </Card>
-              </TabsContent>
-
-              <TabsContent value="timeline" className="space-y-4">
-                <Card className="bg-slate-800 border-slate-700">
-                  <CardHeader>
-                    <CardTitle className="text-white">Playout Timeline</CardTitle>
-                    <CardDescription className="text-slate-400">
-                      Schedule and manage your broadcast content with drag-and-drop timeline
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <PlayoutTimeline />
-                  </CardContent>
-                </Card>
-              </TabsContent>
-
-              <TabsContent value="cg" className="space-y-4">
-                <Card className="bg-slate-800 border-slate-700">
-                  <CardHeader>
-                    <CardTitle className="text-white">HTML CG Editor</CardTitle>
-                    <CardDescription className="text-slate-400">
-                      Design and preview character generator overlays, lower thirds, tickers, and more
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <CGEditor />
-                  </CardContent>
-                </Card>
-              </TabsContent>
-
-              <TabsContent value="scte" className="space-y-4">
-                <Card className="bg-slate-800 border-slate-700">
-                  <CardHeader>
-                    <CardTitle className="text-white">SCTE-35 Preroll Configuration</CardTitle>
-                    <CardDescription className="text-slate-400">
-                      Configure ad insertion markers, preroll timing, and signal splicing
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <SCTE35Config />
-                  </CardContent>
-                </Card>
-              </TabsContent>
-            </Tabs>
+            {/* Right - Playlist */}
+            <div className="lg:col-span-3">
+              <SimplePlaylist />
+            </div>
           </div>
+        )}
 
-          <div className="space-y-4">
-            <Card className="bg-slate-800 border-slate-700">
-              <CardHeader>
-                <CardTitle className="text-white text-lg">Quick Actions</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <Button className="w-full justify-start" variant="outline">
-                  <Play className="h-4 w-4 mr-2" />
-                  Start Playout
-                </Button>
-                <Button className="w-full justify-start" variant="outline">
-                  <Pause className="h-4 w-4 mr-2" />
-                  Pause Schedule
-                </Button>
-                <Button className="w-full justify-start" variant="outline">
-                  <Square className="h-4 w-4 mr-2" />
-                  Emergency Cut
-                </Button>
-                <Button className="w-full justify-start" variant="outline">
-                  <Layers className="h-4 w-4 mr-2" />
-                  Load Preset
-                </Button>
-              </CardContent>
-            </Card>
+        {activeTab === 'assets' && (
+          <Card className="bg-slate-800 border-slate-700">
+            <CardContent className="p-6">
+              <h2 className="text-white text-xl font-semibold mb-4">Assets Library</h2>
+              <p className="text-slate-400">Full assets library view coming soon...</p>
+            </CardContent>
+          </Card>
+        )}
 
-            <Card className="bg-slate-800 border-slate-700">
-              <CardHeader>
-                <CardTitle className="text-white text-lg">System Status</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-slate-400 text-sm">Engine</span>
-                  <span className="text-green-400 text-sm font-semibold">Running</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-slate-400 text-sm">CG Renderer</span>
-                  <span className="text-green-400 text-sm font-semibold">Ready</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-slate-400 text-sm">SCTE-35</span>
-                  <span className="text-green-400 text-sm font-semibold">Active</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-slate-400 text-sm">Output</span>
-                  <span className="text-yellow-400 text-sm font-semibold">Standby</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-slate-400 text-sm">Active Channels</span>
-                  <span className="text-green-400 text-sm font-semibold">4</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-slate-400 text-sm">Total Streams</span>
-                  <span className="text-white text-sm font-semibold">8</span>
-                </div>
-              </CardContent>
-            </Card>
+        {activeTab === 'graphics' && (
+          <Card className="bg-slate-800 border-slate-700">
+            <CardContent className="p-6">
+              <h2 className="text-white text-xl font-semibold mb-4">Graphics & Overlays</h2>
+              <p className="text-slate-400">Quick graphics access panel coming soon...</p>
+            </CardContent>
+          </Card>
+        )}
 
-            <Card className="bg-slate-800 border-slate-700">
-              <CardHeader>
-                <CardTitle className="text-white text-lg">Active Channels</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <div className="p-3 bg-slate-700/50 rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <div className="text-white font-medium text-sm">Main Channel</div>
-                    <span className="text-green-400 text-xs font-semibold">LIVE</span>
-                  </div>
-                  <div className="text-slate-400 text-xs mt-1">CH01 • 2 streams</div>
-                </div>
-                <div className="p-3 bg-slate-700/50 rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <div className="text-white font-medium text-sm">News 24/7</div>
-                    <span className="text-green-400 text-xs font-semibold">LIVE</span>
-                  </div>
-                  <div className="text-slate-400 text-xs mt-1">CH02 • 3 streams</div>
-                </div>
-                <div className="p-3 bg-slate-700/50 rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <div className="text-white font-medium text-sm">Documentary</div>
-                    <span className="text-yellow-400 text-xs font-semibold">PAUSED</span>
-                  </div>
-                  <div className="text-slate-400 text-xs mt-1">DOC • 2 streams</div>
-                </div>
-                <div className="p-3 bg-slate-700/50 rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <div className="text-white font-medium text-sm">Sports</div>
-                    <span className="text-slate-400 text-xs font-semibold">IDLE</span>
-                  </div>
-                  <div className="text-slate-400 text-xs mt-1">SPRT • 1 stream</div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+        {activeTab === 'schedule' && (
+          <Card className="bg-slate-800 border-slate-700">
+            <CardContent className="p-6">
+              <h2 className="text-white text-xl font-semibold mb-4">Schedule Calendar</h2>
+              <p className="text-slate-400">Full schedule view coming soon...</p>
+            </CardContent>
+          </Card>
+        )}
+
+        {activeTab === 'channels' && (
+          <Card className="bg-slate-800 border-slate-700">
+            <CardContent className="p-6">
+              <h2 className="text-white text-xl font-semibold mb-4">Channel Management</h2>
+              <p className="text-slate-400">Channel settings and configuration coming soon...</p>
+            </CardContent>
+          </Card>
+        )}
       </main>
 
-      <footer className="border-t border-slate-700 bg-slate-900/80 backdrop-blur-sm mt-auto">
-        <div className="container mx-auto px-4 py-4">
+      {/* Footer */}
+      <footer className="border-t border-slate-700 bg-slate-900/80 backdrop-blur-sm">
+        <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between text-sm text-slate-400">
-            <div>Multi-Channel Playout Automation System v2.0</div>
+            <div>playZ v3.0 - Simplified Playout Automation</div>
             <div className="flex items-center gap-4">
-              <span>Channels: 4 Active</span>
-              <span>Streams: 8 Total</span>
-              <span>Node Engine: Active</span>
-              <span>CG Renderer: Ready</span>
-              <span>SCTE-35: Enabled</span>
+              <span className="flex items-center gap-1">
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                CH01: On Air
+              </span>
+              <span>CH02: Standby</span>
+              <span>CH03: Standby</span>
             </div>
           </div>
         </div>
