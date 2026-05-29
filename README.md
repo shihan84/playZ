@@ -5,10 +5,18 @@ A professional multi-channel playout automation system with HTML CG overlays, SC
 ## 🚀 Features
 
 ### Core Playout
-- **Node-based Workflow Editor**: Visual design interface for playout workflows
+- **Workflow Builder**: Intuitive step-by-step workflow designer with proper UX/UI
 - **Frame-accurate Timeline**: Precise scheduling with HH:MM:SS.FF timecode
 - **Playlist Management**: Drag-and-drop playlist with group support
 - **Transport Controls**: Professional play/pause/stop/seek controls
+
+### Workflow Builder Features
+- **Step-based Interface**: Card-based workflow management
+- **8 Step Types**: Video, Audio, CG, Image, Text Ticker, Live Input, SCTE-35, Output
+- **Easy Configuration**: Type-specific forms for each step
+- **Step Management**: Add, delete, duplicate, and reorder steps
+- **Enable/Disable**: Toggle individual steps on/off
+- **Visual Preview**: Real-time preview of step configuration
 
 ### Multi-Channel Support
 - **Multiple TV Channels**: Run and manage multiple channels simultaneously
@@ -59,7 +67,7 @@ playZ/
 │   │       └── channels/
 │   ├── components/
 │   │   ├── plout/               # Playout components
-│   │   │   ├── NodeEditor.tsx
+│   │   │   ├── WorkflowBuilder.tsx
 │   │   │   ├── CGEditor.tsx
 │   │   │   ├── PlayoutTimeline.tsx
 │   │   │   ├── SCTE35Config.tsx
@@ -84,7 +92,7 @@ playZ/
 - **Channel**: TV channel configuration and status
 - **StreamOutput**: Multi-destination streaming
 - **ChannelSchedule**: Automated scheduling
-- **PlayoutWorkflow**: Node-based workflow definitions
+- **PlayoutWorkflow**: Step-based workflow definitions
 - **PlayoutSchedule**: Timeline scheduling data
 - **CGTemplate**: HTML/CSS overlay templates
 - **SCTE35Marker**: Ad insertion markers
@@ -186,11 +194,13 @@ playZ/
 4. Add stream outputs (RTMP, SRT, etc.)
 
 ### Building a Workflow
-1. Go to Node Editor tab
-2. Drag nodes from the palette to the canvas
-3. Connect nodes by dragging from output to input
-4. Configure each node's properties
-5. Save the workflow
+1. Go to Workflow Builder tab
+2. Click "Add Step" to add workflow steps
+3. Select step type (Video, Audio, CG, etc.)
+4. Configure each step in the configuration panel
+5. Reorder steps using up/down buttons
+6. Enable/disable steps as needed
+7. Save your workflow
 
 ### Scheduling Content
 1. Go to Timeline tab
