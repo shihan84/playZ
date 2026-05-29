@@ -33,6 +33,7 @@ model Post {
 
 model PlayoutWorkflow {
   id          String   @id @default(cuid())
+  channelId   String
   name        String
   description String?
   nodes       String
@@ -44,6 +45,7 @@ model PlayoutWorkflow {
 
 model PlayoutSchedule {
   id            String   @id @default(cuid())
+  channelId     String
   name          String
   description   String?
   items         String
@@ -56,18 +58,21 @@ model PlayoutSchedule {
 
 model CGTemplate {
   id        String   @id @default(cuid())
+  channelId String?
   name      String
   type      String
   html      String
   css       String
   isVisible Boolean  @default(true)
   layer     Int      @default(1)
+  isGlobal  Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model SCTE35Marker {
   id            String   @id @default(cuid())
+  channelId     String
   name          String
   signalType    String
   prerollFrames Int      @default(30)
@@ -83,9 +88,69 @@ model SCTE35Marker {
 
 model PlayoutLog {
   id          String   @id @default(cuid())
+  channelId   String?
   action      String
   details     String?
   status      String
   timestamp   DateTime @default(now())
   metadata    String?
+}
+
+model Channel {
+  id                String   @id @default(cuid())
+  name              String
+  description       String?
+  callSign          String?  @unique
+  isActive          Boolean  @default(true)
+  status            String   @default("idle")
+  currentProgram    String?
+  currentEvent      String?
+  currentTime       Int      @default(0)
+  totalDuration     Int      @default(0)
+  frameRate         Int      @default(30)
+  resolution        String   @default("1920x1080")
+  aspectRatio       String   @default("16:9")
+  audioChannels     Int      @default(2)
+  audioSampleRate   Int      @default(48000)
+  videoCodec        String   @default("h264")
+  audioCodec        String   @default("aac")
+  bitrate           Int      @default(5000000)
+  priority          Int      @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model StreamOutput {
+  id              String   @id @default(cuid())
+  channelId       String
+  name            String
+  protocol        String
+  url             String
+  streamKey       String?
+  backupUrl       String?
+  isPrimary       Boolean  @default(false)
+  isBackup        Boolean  @default(false)
+  isActive        Boolean  @default(true)
+  status          String   @default("idle")
+  lastStreamTime  DateTime?
+  bitrate         Int?
+  fps             Int?
+  resolution      String?
+  codec           String?
+  metadata        String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model ChannelSchedule {
+  id           String   @id @default(cuid())
+  channelId    String
+  scheduleId   String
+  dayOfWeek    Int      @default(0)
+  startTime    String
+  endTime      String
+  repeat       Boolean  @default(true)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }

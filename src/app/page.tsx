@@ -4,15 +4,16 @@ import { useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Play, Pause, Square, Settings, Layers, Radio, Clock, FileVideo } from 'lucide-react'
+import { Play, Pause, Square, Settings, Layers, Radio, Clock, FileVideo, Tv } from 'lucide-react'
 import NodeEditor from '@/components/playout/NodeEditor'
 import PlayoutTimeline from '@/components/playout/PlayoutTimeline'
 import CGEditor from '@/components/playout/CGEditor'
 import SCTE35Config from '@/components/playout/SCTE35Config'
+import ChannelManager from '@/components/playout/ChannelManager'
 
 export default function PlayoutAutomation() {
   const [isPlaying, setIsPlaying] = useState(false)
-  const [activeTab, setActiveTab] = useState('nodes')
+  const [activeTab, setActiveTab] = useState('channels')
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
@@ -23,8 +24,8 @@ export default function PlayoutAutomation() {
               <div className="flex items-center gap-2">
                 <Radio className="h-8 w-8 text-purple-400" />
                 <div>
-                  <h1 className="text-2xl font-bold text-white">Playout Automation</h1>
-                  <p className="text-sm text-slate-400">Node-based broadcast automation system</p>
+                  <h1 className="text-2xl font-bold text-white">Multi-Channel Playout Automation</h1>
+                  <p className="text-sm text-slate-400">Node-based broadcast automation with multi-stream support</p>
                 </div>
               </div>
             </div>
@@ -46,7 +47,7 @@ export default function PlayoutAutomation() {
                 className="gap-2"
               >
                 {isPlaying ? <Square className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                {isPlaying ? 'Stop' : 'Start'}
+                {isPlaying ? 'Stop All' : 'Start All'}
               </Button>
 
               <Button size="sm" variant="outline" className="gap-2">
@@ -63,6 +64,10 @@ export default function PlayoutAutomation() {
           <div className="lg:col-span-3">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
               <TabsList className="bg-slate-800 border border-slate-700">
+                <TabsTrigger value="channels" className="data-[state=active]:bg-purple-600">
+                  <Tv className="h-4 w-4 mr-2" />
+                  Channels
+                </TabsTrigger>
                 <TabsTrigger value="nodes" className="data-[state=active]:bg-purple-600">
                   <Layers className="h-4 w-4 mr-2" />
                   Node Editor
@@ -80,6 +85,20 @@ export default function PlayoutAutomation() {
                   SCTE-35
                 </TabsTrigger>
               </TabsList>
+
+              <TabsContent value="channels" className="space-y-4">
+                <Card className="bg-slate-800 border-slate-700">
+                  <CardHeader>
+                    <CardTitle className="text-white">Multi-Channel Management</CardTitle>
+                    <CardDescription className="text-slate-400">
+                      Manage multiple TV channels with individual workflows, schedules, and stream outputs
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ChannelManager />
+                  </CardContent>
+                </Card>
+              </TabsContent>
 
               <TabsContent value="nodes" className="space-y-4">
                 <Card className="bg-slate-800 border-slate-700">
@@ -185,25 +204,49 @@ export default function PlayoutAutomation() {
                   <span className="text-slate-400 text-sm">Output</span>
                   <span className="text-yellow-400 text-sm font-semibold">Standby</span>
                 </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-400 text-sm">Active Channels</span>
+                  <span className="text-green-400 text-sm font-semibold">4</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-400 text-sm">Total Streams</span>
+                  <span className="text-white text-sm font-semibold">8</span>
+                </div>
               </CardContent>
             </Card>
 
             <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
-                <CardTitle className="text-white text-lg">Upcoming Events</CardTitle>
+                <CardTitle className="text-white text-lg">Active Channels</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
                 <div className="p-3 bg-slate-700/50 rounded-lg">
-                  <div className="text-white font-medium text-sm">News Program</div>
-                  <div className="text-slate-400 text-xs mt-1">14:00 - 15:00 • Main Channel</div>
+                  <div className="flex items-center justify-between">
+                    <div className="text-white font-medium text-sm">Main Channel</div>
+                    <span className="text-green-400 text-xs font-semibold">LIVE</span>
+                  </div>
+                  <div className="text-slate-400 text-xs mt-1">CH01 • 2 streams</div>
                 </div>
                 <div className="p-3 bg-slate-700/50 rounded-lg">
-                  <div className="text-white font-medium text-sm">Commercial Break</div>
-                  <div className="text-slate-400 text-xs mt-1">15:00 - 15:05 • Ad Insertion</div>
+                  <div className="flex items-center justify-between">
+                    <div className="text-white font-medium text-sm">News 24/7</div>
+                    <span className="text-green-400 text-xs font-semibold">LIVE</span>
+                  </div>
+                  <div className="text-slate-400 text-xs mt-1">CH02 • 3 streams</div>
                 </div>
                 <div className="p-3 bg-slate-700/50 rounded-lg">
-                  <div className="text-white font-medium text-sm">Sports Coverage</div>
-                  <div className="text-slate-400 text-xs mt-1">15:05 - 17:00 • Live Event</div>
+                  <div className="flex items-center justify-between">
+                    <div className="text-white font-medium text-sm">Documentary</div>
+                    <span className="text-yellow-400 text-xs font-semibold">PAUSED</span>
+                  </div>
+                  <div className="text-slate-400 text-xs mt-1">DOC • 2 streams</div>
+                </div>
+                <div className="p-3 bg-slate-700/50 rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <div className="text-white font-medium text-sm">Sports</div>
+                    <span className="text-slate-400 text-xs font-semibold">IDLE</span>
+                  </div>
+                  <div className="text-slate-400 text-xs mt-1">SPRT • 1 stream</div>
                 </div>
               </CardContent>
             </Card>
@@ -214,8 +257,10 @@ export default function PlayoutAutomation() {
       <footer className="border-t border-slate-700 bg-slate-900/80 backdrop-blur-sm mt-auto">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between text-sm text-slate-400">
-            <div>Playout Automation System v1.0</div>
+            <div>Multi-Channel Playout Automation System v2.0</div>
             <div className="flex items-center gap-4">
+              <span>Channels: 4 Active</span>
+              <span>Streams: 8 Total</span>
               <span>Node Engine: Active</span>
               <span>CG Renderer: Ready</span>
               <span>SCTE-35: Enabled</span>
