@@ -1,48 +1,40 @@
-# playZ - Enterprise-Grade Playout Automation System
+# playZ - Simplified Broadcast Playout Automation
 
-A professional multi-channel playout automation system with HTML CG overlays, SCTE-35 marker generation, and enterprise broadcast features.
+An intuitive web-based playout automation system for TV and streaming channels. Simple, professional, and easy to use.
 
 ## 🚀 Features
 
-### Core Playout
-- **Workflow Builder**: Intuitive step-by-step workflow designer with proper UX/UI
-- **Frame-accurate Timeline**: Precise scheduling with HH:MM:SS.FF timecode
-- **Playlist Management**: Drag-and-drop playlist with group support
-- **Transport Controls**: Professional play/pause/stop/seek controls
+### Main Dashboard
+- **Live Video Preview**: Real-time monitoring of on-air content
+- **Transport Controls**: Play, pause, next, previous, stop with professional layout
+- **Progress Tracking**: Real-time progress bar with timecode display (HH:MM:SS)
+- **Volume Control**: Mute toggle and volume slider
+- **Next Up Preview**: See what's coming next in the playlist
 
-### Workflow Builder Features
-- **Step-based Interface**: Card-based workflow management
-- **8 Step Types**: Video, Audio, CG, Image, Text Ticker, Live Input, SCTE-35, Output
-- **Easy Configuration**: Type-specific forms for each step
-- **Step Management**: Add, delete, duplicate, and reorder steps
-- **Enable/Disable**: Toggle individual steps on/off
-- **Visual Preview**: Real-time preview of step configuration
+### Assets Library
+- **Folder Navigation**: Organize media in folders (News, Sports, Music, etc.)
+- **File Browser**: Grid or list view with thumbnails
+- **Multi-Select**: Add multiple files to playlist at once
+- **Search**: Quick file search
+- **Metadata Display**: Duration, file size, type information
+
+### Playlist Management
+- **Drag & Drop**: Reorder playlist items by dragging
+- **Status Tracking**: NOW PLAYING, NEXT UP, COMPLETED indicators
+- **Quick Actions**: Play, remove, expand details
+- **Playlist Stats**: Total items and duration
+- **Save/Load**: Save playlists for reuse
+
+### Quick Graphics
+- **One-Click Toggles**: Show/hide graphics overlays instantly
+- **Layer Management**: See which layer each graphic is on
+- **On Air Indicators**: Visual badges for visible graphics
+- **Template Types**: Lower thirds, tickers, bugs, fullscreen overlays
 
 ### Multi-Channel Support
-- **Multiple TV Channels**: Run and manage multiple channels simultaneously
-- **Per-channel Isolation**: Independent playout state per channel
-- **Priority-based Scheduling**: Resource allocation based on channel priority
-- **Multi-stream Output**: RTMP, SRT, HLS, DASH, WebRTC support per channel
-
-### Graphics & Overlays
-- **HTML CG Overlays**: Dynamic HTML/CSS character generator
-- **Template Library**: Lower thirds, tickers, bugs, fullscreen overlays
-- **Real-time Preview**: Live iframe preview of CG templates
-- **Multi-layer Support**: Layer ordering and visibility control
-
-### Ad Insertion
-- **SCTE-35 Markers**: Full SCTE-35 signal generation
-- **Multiple Signal Types**: splice_insert, time_signal, private
-- **Base64/Hex/JSON Output**: Multiple output formats
-- **Preroll Configuration**: Frame-based ad timing
-
-### Enterprise Features
-- **Broadcast Dashboard**: Professional control center interface
-- **Multi-view Monitoring**: Quad/Hex/Nine view modes
-- **Signal Monitoring**: Bitrate, FPS, dropped frames tracking
-- **Audio Level Meters**: Stereo L/R with peak hold
-- **Emergency Controls**: Cut to Black, Break Away, Manual Override
-- **Real-time Updates**: WebSocket-based state synchronization
+- **Channel Selector**: Switch between multiple channels
+- **Per-Channel Playlists**: Independent playlists per channel
+- **Status Monitoring**: Track all channels at once
 
 ## 🏗️ Architecture
 
@@ -52,31 +44,24 @@ A professional multi-channel playout automation system with HTML CG overlays, SC
 - **Backend**: Next.js API Routes
 - **Database**: Prisma ORM with SQLite
 - **Real-time**: Socket.io WebSocket service
-- **Drag & Drop**: React DnD
 
 ### Project Structure
 ```
 playZ/
 ├── src/
 │   ├── app/
-│   │   ├── page.tsx              # Main dashboard
+│   │   ├── page.tsx              # Main dashboard (3-column layout)
 │   │   └── api/                  # API routes
-│   │       ├── playout/
-│   │       ├── cg-templates/
-│   │       ├── scte35/
-│   │       └── channels/
 │   ├── components/
-│   │   ├── plout/               # Playout components
-│   │   │   ├── WorkflowBuilder.tsx
-│   │   │   ├── CGEditor.tsx
-│   │   │   ├── PlayoutTimeline.tsx
-│   │   │   ├── SCTE35Config.tsx
-│   │   │   └── ChannelManager.tsx
-│   │   └── broadcast/            # Enterprise components
-│   │       ├── BroadcastDashboard.tsx
-│   │       ├── MultiViewMonitor.tsx
-│   │       ├── PlaylistManager.tsx
-│   │       └── TransportControls.tsx
+│   │   └── playout/              # Playout components
+│   │       ├── PlayoutDashboard.tsx    # Video preview & controls
+│   │       ├── AssetsLibrary.tsx       # File browser & folders
+│   │       ├── SimplePlaylist.tsx      # Playlist management
+│   │       ├── GraphicsQuickAccess.tsx # CG toggles
+│   │       ├── CGEditor.tsx            # Full CG editor
+│   │       ├── PlayoutTimeline.tsx     # Timeline view
+│   │       ├── SCTE35Config.tsx        # Ad markers
+│   │       └── ChannelManager.tsx      # Channel settings
 │   └── lib/
 │       └── db.ts                 # Prisma client
 ├── prisma/
@@ -187,47 +172,31 @@ playZ/
 
 ## 🔧 Usage
 
-### Creating a Channel
+### Quick Start - Play Content
+
+1. **Select Channel** - Choose your channel from the dropdown in the header
+2. **Add Media to Playlist**
+   - Click on files in the Assets Library (left panel)
+   - Multi-select multiple files
+   - Click "Add to Playlist" button
+3. **Reorder Playlist** - Drag items to change playback order
+4. **Start Playback**
+   - Click the Play button in the dashboard
+   - Or click the play icon on a playlist item
+5. **Control Playback** - Use transport controls (previous, pause/play, next, stop)
+
+### Using Graphics
+
+1. Open Quick Graphics panel (bottom-left)
+2. Toggle overlays on/off with the eye icon
+3. Click "Open Graphics Editor" for advanced CG creation
+
+### Managing Channels
+
 1. Go to Channels tab
-2. Click "Add Channel"
-3. Configure channel settings (name, call sign, resolution, codec)
+2. Click "Add Channel" to create new channels
+3. Configure settings (name, call sign, resolution, codec)
 4. Add stream outputs (RTMP, SRT, etc.)
-
-### Building a Workflow
-1. Go to Workflow Builder tab
-2. Click "Add Step" to add workflow steps
-3. Select step type (Video, Audio, CG, etc.)
-4. Configure each step in the configuration panel
-5. Reorder steps using up/down buttons
-6. Enable/disable steps as needed
-7. Save your workflow
-
-### Scheduling Content
-1. Go to Timeline tab
-2. Add items to the timeline
-3. Set start times and durations
-4. Drag to reorder items
-5. Save schedule
-
-### Creating CG Overlays
-1. Go to HTML CG tab
-2. Select template type or create custom
-3. Write HTML and CSS
-4. Preview in real-time
-5. Set layer and visibility
-
-### Configuring SCTE-35
-1. Go to SCTE-35 tab
-2. Add marker
-3. Select signal type
-4. Configure preroll and duration
-5. Generate Base64 signal
-
-### Monitoring
-1. Go to Dashboard tab for real-time monitoring
-2. Check Multi-View for channel overview
-3. Monitor audio levels, signal quality
-4. Use emergency controls if needed
 
 ## 📊 API Endpoints
 
